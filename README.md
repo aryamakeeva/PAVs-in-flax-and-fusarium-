@@ -3,7 +3,7 @@
 > **Arina Makeeva**  
 > Research Project, Bioinformatics Institute
 > 📬 aryamakeeva@gmail.com 
-> 🧪 Supervisor: A. Samsonova, A.Kanapin, V.Stanin
+> 🧪 Supervisors: A. Samsonova, A.Kanapin, V.Stanin
 
 ---
 
