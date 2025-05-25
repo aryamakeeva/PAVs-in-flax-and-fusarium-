@@ -2,7 +2,7 @@
 
 > **Arina Makeeva**  
 > Research Project, Bioinformatics Institute
-> 📬 arina.makeeva@bio.msu.ru  
+> 📬 aryamakeeva@gmail.com 
 > 🧪 Supervisor: A. Samsonova, A.Kanapin, V.Stanin
 
 ---
