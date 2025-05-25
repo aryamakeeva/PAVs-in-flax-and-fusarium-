@@ -11,7 +11,9 @@
 
 Plant genomes are dynamic landscapes shaped by genome duplications, gene loss, and the activity of mobile elements. These processes lead to structural variants, including **Presence/Absence Variations (PAVs)** — genomic regions present in some individuals but completely absent in others (Figure 1).
 
-![](./imgs/Figure1.png "Figure 1: Presence/Absence Variations (PAVs)")
+![Alt text](./imgs/Figure1.png)
+
+*Figure 1: Presence/Absence Variations (PAVs) in plant genomes*
 
 In this study, we investigate the role of PAVs in shaping:
 
@@ -19,10 +21,6 @@ In this study, we investigate the role of PAVs in shaping:
 - **Resistance** in two *Linum usitatissimum* cultivars
 
 *Keywords:* PAV, structural variation, Flax, Fusarium
-
----
-
-## Repository contents
 
 ---
 
@@ -38,6 +36,8 @@ We analysed:
 ---
 
 ## PAV Analysis Pipeline 
+
+![](./imgs/Figure2.png)
 
 The required software environment is defined in the `environment.yaml` file.
 
@@ -108,7 +108,20 @@ GeneB       1       1       0
 ## Results
 
 - Among 12 Fusarium genomes we identified 233 highly divergent genes (Figure 2.A), and examined domain differences (Figure 2.B);
+
+![Alt text](./imgs/Figure4.png)
+
+*Figure 2. A - Heatmap of the most variable genes across the analysed Fusarium strains, based on presence/absence variation. B - GO enrichment analysis of protein domains associated with the top 5% of genes ranked by variation score. Bars represent significantly enriched functional categories; values indicate p-values calculated using the hypergeometric test*
+
 - Compared the gene content between a susceptible and a resistant flax variety (Figure 3.A)and performed GO enrichment analysis. Genes specific to the susceptible variety are associated with processes related to cell degradation and viral activity, whereas genes unique to the resistant variety are enriched in cellular defence mechanisms, including mitochondrial regulation and calcium signalling (Figure 3.B).
+
+![Alt text](./imgs/Figure3.png)
+
+*Figure 3. A - Venn diagram showing the number of unique and shared genes between the susceptible and resistant flax varieties. B - Gene Ontology (GO) enrichment analysis of variety-specific genes. Bars represent enriched biological processes; values indicate p-values calculated via hypergeometric test*
+
+## Future plans
+
+We are going to evaluate genomic context of identified PAVs. Check for updates ⭐️
 
 ---
 
