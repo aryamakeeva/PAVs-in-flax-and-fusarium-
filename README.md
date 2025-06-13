@@ -2,7 +2,9 @@
 
 > **Arina Makeeva**  
 > Research Project, Bioinformatics Institute
-> 📬 arina.makeeva@bio.msu.ru  
+>
+> 📬 aryamakeeva@gmail.com
+> 
 > 🧪 Supervisor: A. Samsonova, A.Kanapin, V.Stanin
 
 ---
@@ -11,14 +13,12 @@
 
 Plant genomes are dynamic landscapes shaped by genome duplications, gene loss, and the activity of mobile elements. These processes lead to structural variants, including **Presence/Absence Variations (PAVs)** — genomic regions present in some individuals but completely absent in others (Figure 1).
 
-![Alt text](./imgs/Figure1.png)
-
-*Figure 1: Presence/Absence Variations (PAVs) in plant genomes*
+<img src="./imgs/Figure1.png" alt="Alt text" width="400"/>
 
 In this study, we investigate the role of PAVs in shaping:
 
-- **Virulence** in the pathogenic fungus *Fusarium oxysporum*  
-- **Resistance** in two *Linum usitatissimum* cultivars
+- **Virulence** in the pathogenic fungus *Fusarium oxysporum* f. sp. lini.  
+- **Resistance** in two flax (*Linum usitatissimum*)cultivars
 
 *Keywords:* PAV, structural variation, Flax, Fusarium
 
@@ -26,10 +26,8 @@ In this study, we investigate the role of PAVs in shaping:
 
 ## Datasets
 
-We analysed:
-
-- **12 genomes of *F. oxysporum*** (PRJNA630722, PRJNA721899) [1]
-- **Two *Linum usitatissimum* cultivars** [2]:  
+- **12 genomes of *F. oxysporum*** ([PRJNA630722](https://www.ncbi.nlm.nih.gov/bioproject/?term=PRJNA630722), [PRJNA721899](https://www.ncbi.nlm.nih.gov/bioproject/?term=PRJNA721899)) ([Logachev et al., 2024](https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2024.1383914/full))
+- **Two *Linum usitatissimum* cultivars** ([Rozhmina et al., 2024](https://link.springer.com/article/10.1134/S0006350924700076)):  
   - *AT* (resistant)  
   - *LM98* (susceptible) 
 
@@ -43,13 +41,48 @@ The required software environment is defined in the `environment.yaml` file.
 
 ```bash
 conda env create -f environment.yaml
-conda activate scanPAV
+conda activate PAV_analysis
 ```
 
-### 1. Scan for PAVs
+### 1. Pairwise PAV Analysis with `scanPAV`
 
 A custom script based on the [repository example](https://github.com/wtsi-hpag/scanPAV). 
 Location: `./code/1_PAV.sh`
+
+This script performs pairwise Presence/Absence Variation (PAV) analysis between multiple genome assemblies using the [`scanPAV`](https://github.com/baoxingsong/scanPAV) tool.
+
+For each pair of genomes A vs B:
+- Detects sequences present in A and absent in B (`pavs_present_in_A_vs_B`)
+- Then sequences present in B and absent in A (`pavs_absent_in_A_vs_B`)
+- Results are saved in separate folders for each comparison
+
+The script creates a dedicated working directory for each run and logs all steps to `log.txt`.
+
+**Mechanism:**
+1. The "presence" assembly is split into 1000 bp chunks (after removing Ns)  
+2. These chunks are aligned to the "absence" assembly using `bwa` (or other aligner)  
+3. Consecutive unmapped chunks are merged into larger regions and reported as absence PAVs
+
+**Limitation:**  
+The output consists of sequence fragments (~1000 bp and longer), not annotated genes. As a result, genes may be partially recovered or missed entirely, depending on their position and length relative to the chunking and merging steps.
+
+**Input:**  
+- List of genome assemblies  
+- Corresponding sample names
+
+**Output:**  
+- Pairwise PAV result directories
+
+Example output structure:
+
+```
+scanpav_run_YYYYMMDD_HHMMSS/
+├── sample1.fa -> /path/to/assembly1.fa
+├── sample2.fa -> /path/to/assembly2.fa
+├── pavs_present_in_sample1_vs_sample2/
+├── pavs_absent_in_sample1_vs_sample2/
+└── log.txt
+```
 
 ---
 
@@ -91,7 +124,7 @@ A binary matrix is created from gene lists to summarise gene presence in each pa
 - `1` — gene is unique to genome A
 - `0` - gene is shared between genomes A and B
 
-The downstream analysis and data visualisation were performed using the following Python packages: `pandas`, `numpy`, `scipy.stats`, `seaborn`, `matplotlib`.
+The downstream analysis and data visualisation were performed using the following Python packages: `pandas`, `numpy`, `scipy.stats`, `seaborn`, `matplotlib`. Notebooks with follow analysis are in `./code` folder
 
 Example of the output:
 
@@ -119,16 +152,14 @@ GeneB       1       1       0
 
 *Figure 3. A - Venn diagram showing the number of unique and shared genes between the susceptible and resistant flax varieties. B - Gene Ontology (GO) enrichment analysis of variety-specific genes. Bars represent enriched biological processes; values indicate p-values calculated via hypergeometric test*
 
-## Future plans
-
-We are going to evaluate genomic context of identified PAVs. Check for updates ⭐️
+- Our findings suggest that PAVs contribute to differential pathogenicity in *F. oxysporum* f. sp. lini.and resistance in flax. Gene content analysis revealed that the susceptible flax cultivar is enriched in genes associated with cell degradation and viral-related processes, while the resistant cultivar shows an overrepresentation of genes linked to cellular defence, including mitochondrial regulation and calcium signalling. 
 
 ---
 
-## Literature
+## Future plans
 
-1. Logachev, A., Kanapin, A., Rozhmina, T., Stanin, V., Bankin, M., Samsonova, A., Orlova, E., & Samsonova, M. (2024). Pangenomics of flax fungal parasite Fusarium oxysporum f. sp. lini. Frontiers in plant science, 15, 1383914. https://doi.org/10.3389/fpls.2024.1383914 
-2. Rozhmina, T. A., Kanapin, A. A., Bankin, M. P., & Samsonova, M. G. (2024). Identification of Two QTLs Controlling Flax Resistance to Fusarium Wilt. Biophysics, 69(1), 57–62. https://doi.org/10.1134/S0006350924700076 
+The integration of PAV detection with functional annotation opens new perspectives for exploring the evolutionary dynamics of resistance and pathogenicity-related genes in host–pathogen systems. In future work, we aim to investigate the genomic context surrounding the identified PAVs to better understand the mechanisms driving their emergence and maintenance. Check for updates ⭐️
+
 
 
 
